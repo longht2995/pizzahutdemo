@@ -1,0 +1,27 @@
+<?page title="new page title" contentType="text/html;charset=UTF-8"?>
+<zk>
+<window title="new page title" border="normal" viewModel="@id('vm') @init('greenglobal.ddddddddddd.CategoryViewModel')">
+	<button label="Add" onClick="@command('showWindow', vm = vm)"></button>
+	<listbox model="@load(vm.listCategory)">
+		<listhead>
+			<listheader label="ID"></listheader>
+			<listheader label="Name"></listheader>
+			<listheader label=""></listheader>
+		</listhead>
+		<template name="model">
+			<listitem>
+				<listcell>
+					<label value="@load(each.id)"></label>
+				</listcell>
+				<listcell>
+					<label value="@load(each.name)"></label>
+				</listcell>
+				<listcell>
+					<button label="Edit" onClick="@command('showWindow', id = each.id, vm = arg.vm)"></button>
+					<button label="Delete"></button>
+				</listcell>
+			</listitem>
+		</template>
+	</listbox>
+</window>
+</zk>

@@ -1,0 +1,147 @@
+<zk>
+	<window apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm')@init('greenglobal.ddddddddddd.MyViewModel')"
+		validationMessages="@id('vmsgs')" vflex="1">
+		<zscript>
+			<![CDATA[
+			    import greenglobal.ddddddddddd.entity.*;
+				Material mt = new Material();
+			]]>
+		</zscript>
+		<style>
+			.z-label{font-size:11px !important;text-align:center;}
+			.content{ display:flex; width:1024px; margin:0 auto;
+			position:relative; border: 5px solid #666;background: none
+			repeat scroll 0 0 #222;padding:10px 10px;}
+			.material-content{ display:flex; flex-direction: column;
+			align-items:center; border-radius:5px; width:80px;
+			height:100px; background-color:#f3f3f3; margin-right:15px;
+			cursor:pointer; position: relative;
+			background-color:#ffdf71; } .material-active{
+			position:absolute; top:23px; left:23px; width:35px;
+			height:35px; } .pizza-content{width:550px; } .bt-edit{
+			background-color:#fed23b; width:100px; margin:0; color:#333;
+			border:none; } .no-active{ background-color:#f3f3f3; }
+			.total-price{
+				position:absolute;
+				bottom:50px;
+				text-align:center;
+				width:412px;
+			}
+			.price-bt{
+				background-color: #fed23b;
+				color:#333;
+			}
+			.price-bt:hover{
+				background-color: #fed23b;
+				color:#333;
+			}
+		</style>
+		<div sclass="content">
+			<div sclass="pizza-content">
+				<image src="images/Selector000112.png"
+					style="top:0;left:0;">
+				</image>
+				<forEach items="@load(vm.pickMaterial)"
+					varStatus="stt">
+					<if test="${each.category.id !=3}">
+						<image src="@load(each.background)"
+						style="top:0;left:0;position:absolute;" zindex="${stt.index+20}">
+						</image>
+					</if>
+					<if test="${each.category.id ==3}">
+						<image src="@load(each.background)"
+						style="top:0;left:0;position:absolute;" zindex="${stt.index}">
+						</image>
+					</if>
+				</forEach>
+			</div>
+			<div>
+				<button label="Pizzas" sclass="bt-edit"
+					onClick="@command('showPizzas')">
+				</button>
+				<forEach items="@load(vm.listCategory)">
+					<button label="${each.name}" sclass="bt-edit"
+						onClick="@command('selectCategory',id = each.id)">
+					</button>
+				</forEach>
+				<div style="display:flex;padding-top:20px;">
+					<if test="@load(vm.rootPizza)">
+						<forEach items="@load(vm.listPizza)">
+							<choose>
+								<when test="@load(each.check)">
+									<div sclass="material-content"
+										onClick="@command('pickPizza', pizza = each)">
+										<image src="${each.image}"></image>
+										<div sclass="material-active">
+											<image
+												src="images/active.png" height="35px" width="35px">
+											</image>
+										</div>
+										<label value="${each.name}"></label>
+									</div>
+								</when>
+								<when test="@load(!each.check)">
+									<div
+										sclass="material-content no-active"
+										onClick="@command('pickPizza', pizza = each)">
+										<image src="${each.image}"></image>
+										<label value="${each.name}"></label>
+									</div>
+								</when>
+							</choose>
+						</forEach>
+					</if>
+					<if test="@load(vm.rootMaterial)">
+						<forEach items="@load(vm.listMaterial)">
+							<choose>
+								<when test="${each.check==1}">
+									<div sclass="material-content"
+										onClick="@command('pickerMaterial',material = each)">
+										<image src="@load(each.icon)"></image>
+										<div sclass="material-active">
+											<image
+												src="images/active.png" height="35px" width="35px">
+											</image>
+										</div>
+										<label
+											value="@load(each.name)">
+										</label>
+									</div>
+								</when>
+								<when test="${each.check==0}">
+									<div
+										sclass="material-content no-active"
+										onClick="@command('pickerMaterial',material = each)">
+										<image src="@load(each.icon)"></image>
+										<label
+											value="@load(each.name)">
+										</label>
+									</div>
+								</when>
+								<when test="${each.check==2}">
+									<div sclass="material-content"
+										onClick="@command('pickerMaterial',material = each)">
+										<image src="@load(each.icon)"></image>
+										<div sclass="material-active" style="left:15px;">
+											<image
+												src="images/extra.png" height="30px" width="50px">
+											</image>
+										</div>
+										<label
+											value="@load(each.name)">
+										</label>
+									</div>
+								</when>
+							</choose>
+						</forEach>
+					</if>
+				</div>
+				<div sclass="total-price">
+					<spinner value="@bind(vm.quantity)" width="70px" constraint="min 1"></spinner>
+					<button sclass="price-bt" label="@load(vm.price)"></button>
+				</div>
+			</div>
+		</div>
+	</window>
+</zk>

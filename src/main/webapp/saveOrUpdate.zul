@@ -1,0 +1,24 @@
+<?page title="new page title" contentType="text/html;charset=UTF-8"?>
+<zk>
+<window id="wd" title="new page title" border="normal" width="80%" closable="true"
+		apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('greenglobal.ddddddddddd.entity.Category')">
+		<zscript>
+			<![CDATA[
+			         Object ob = arg.get("vm");
+			       System.out.println(arg.get("vm"));
+				
+			]]>
+		</zscript>
+	<grid form="@id('fx') @load(arg.category)">
+		<rows>
+			<row>
+				<label value="name"></label>
+				<textbox value="@bind(fx.name)"></textbox>
+			</row>
+			<row>
+				<button label="Save" onClick="@command('add',category = fx, vm = ob)"></button>
+			</row>
+		</rows>
+	</grid>
+</window>
+</zk>
